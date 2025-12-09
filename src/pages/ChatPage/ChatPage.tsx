@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import ChatPageView from "./ChatPageView";
 import type { Message, ModelType } from "@/types/chat";
@@ -57,6 +57,9 @@ const ChatPage: React.FC = () => {
   });
   const [authLoading, setAuthLoading] = useState(false);
 
+  // Track guest token creation to prevent duplicates
+  const guestTokenCreationRef = useRef(false);
+
   useEffect(() => {
     initializeChat();
     setMessages([]);
@@ -74,8 +77,17 @@ const ChatPage: React.FC = () => {
 
   useEffect(() => {
     const createGuestToken = async () => {
-      if (!isUserLoggedIn && !guestToken && companyInfo) {
+      // Prevent duplicate guest token creation
+      if (!isUserLoggedIn && !guestToken && companyInfo && !guestTokenCreationRef.current) {
+        guestTokenCreationRef.current = true;
         try {
+          // Check if there's a stored guest token first
+          const storedToken = sessionStorage.getItem(`guest_token_${companyInfo.company_id}`);
+          if (storedToken) {
+            setGuestToken(storedToken);
+            return;
+          }
+
           const tokenResponse = await fetch(getApiUrl("/users/guest/create"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -87,10 +99,15 @@ const ChatPage: React.FC = () => {
           });
           if (tokenResponse.ok) {
             const tokenData = await tokenResponse.json();
-            setGuestToken(tokenData.tokens.access_token);
+            const token = tokenData.tokens.access_token;
+            setGuestToken(token);
+            // Store token in sessionStorage to persist across refreshes
+            sessionStorage.setItem(`guest_token_${companyInfo.company_id}`, token);
           }
         } catch (err) {
           console.error("Failed to create guest token:", err);
+        } finally {
+          guestTokenCreationRef.current = false;
         }
       }
     };
@@ -262,6 +279,10 @@ const ChatPage: React.FC = () => {
       dispatch(setUserData({ user: data.user, tokens: data.tokens }));
       setShowAuthModal(false);
       setGuestToken(null);
+      // Clear guest token from session storage on authentication
+      if (companyInfo) {
+        sessionStorage.removeItem(`guest_token_${companyInfo.company_id}`);
+      }
       setMessages([]);
       setCurrentChatId(null);
       setStreamingMessage("");
@@ -371,6 +392,10 @@ const ChatPage: React.FC = () => {
       setIsStreaming(false);
       setError(null);
       if (companyInfo) {
+        // Clear existing guest token and reset the creation flag
+        sessionStorage.removeItem(`guest_token_${companyInfo.company_id}`);
+        guestTokenCreationRef.current = false;
+
         const tokenResponse = await fetch(getApiUrl("/users/guest/create"), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -382,7 +407,9 @@ const ChatPage: React.FC = () => {
         });
         if (tokenResponse.ok) {
           const tokenData = await tokenResponse.json();
-          setGuestToken(tokenData.tokens.access_token);
+          const token = tokenData.tokens.access_token;
+          setGuestToken(token);
+          sessionStorage.setItem(`guest_token_${companyInfo.company_id}`, token);
         }
       }
     } catch (err) {

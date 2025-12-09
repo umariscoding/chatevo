@@ -14,7 +14,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
   const [isMultiline, setIsMultiline] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const selectedModel: ModelType = "OpenAI";
+  const selectedModel: ModelType = "Llama-instant"; // Default to Llama-instant (uses Groq)
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
