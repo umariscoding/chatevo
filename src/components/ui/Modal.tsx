@@ -67,11 +67,11 @@ const Modal: React.FC<ModalProps> = ({
         <div
           className={`
             relative transform overflow-hidden rounded-3xl ${currentTheme.background}
-            px-6 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full
+            px-6 pb-4 pt-5 text-left transition-all sm:my-8 sm:w-full
             ${maxWidthClasses[maxWidth]} sm:px-8 sm:py-6 border ${currentTheme.border}
           `}
           style={{
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+            boxShadow: "0 25px 50px -12px var(--shadow-elevated)",
           }}
         >
           {title && (
