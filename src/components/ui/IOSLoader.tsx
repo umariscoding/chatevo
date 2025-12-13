@@ -2,7 +2,7 @@ import React from "react";
 
 interface IOSLoaderProps {
   size?: "sm" | "md" | "lg" | "xl";
-  color?: "primary" | "white" | "dark";
+  color?: "primary" | "white" | "dark" | "zinc";
   className?: string;
 }
 
@@ -22,6 +22,7 @@ const IOSLoader: React.FC<IOSLoaderProps> = ({
     primary: "text-primary-600",
     white: "text-white",
     dark: "text-neutral-700",
+    zinc: "text-zinc-100",
   };
 
   return (

@@ -44,14 +44,14 @@ const MinimalInput = React.forwardRef<HTMLInputElement, MinimalInputProps>(
       },
       dark: {
         input:
-          "border-neutral-700 text-neutral-50 focus:border-primary-600 focus:ring-primary-600/30",
+          "border-0 text-zinc-200 focus:ring-2 focus:ring-zinc-700 bg-zinc-800 hover:bg-zinc-750",
         label: {
-          default: "text-neutral-500",
-          focused: "text-neutral-50",
+          default: "text-zinc-500",
+          focused: "text-zinc-300",
           error: "text-red-400",
         },
         error: "text-red-400",
-        passwordToggle: "text-neutral-400 hover:text-neutral-300",
+        passwordToggle: "text-zinc-500 hover:text-zinc-300",
       },
       auth: {
         input:

@@ -96,8 +96,8 @@ const MinimalButton = React.forwardRef<HTMLButtonElement, MinimalButtonProps>(
       >
         {loading ? (
           <div className="flex items-center space-x-2">
-            <IOSLoader size="sm" color="white" />
-            <span>Loading...</span>
+            <IOSLoader size="sm" color={theme === "auth" ? "zinc" : "white"} />
+            <span className="text-zinc-100">Loading...</span>
           </div>
         ) : (
           children

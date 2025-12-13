@@ -141,6 +141,7 @@ const ChatOptionsMenu: React.FC<ChatOptionsMenuProps> = ({
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
                 variant="floating"
+                theme="auth"
               />
 
               <div className="flex justify-end space-x-2 pt-4">
