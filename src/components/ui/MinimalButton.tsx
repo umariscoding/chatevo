@@ -56,23 +56,24 @@ const MinimalButton = React.forwardRef<HTMLButtonElement, MinimalButtonProps>(
 
     const authVariants = {
       primary: `
-        bg-slate-700 hover:bg-slate-600 text-slate-50
-        focus:ring-2 focus:ring-slate-600/40 focus:ring-offset-1
-        shadow-lg shadow-slate-700/30 hover:shadow-xl hover:shadow-slate-700/40
+        bg-gradient-to-r from-zinc-700 via-zinc-600 to-zinc-700 hover:from-zinc-600 hover:via-zinc-500 hover:to-zinc-600 text-zinc-100
+        focus:ring-2 focus:ring-zinc-500/30 focus:ring-offset-1 focus:ring-offset-zinc-950
+        shadow-lg shadow-zinc-900/50 hover:shadow-xl hover:shadow-zinc-900/60
+        hover:scale-[1.01] active:scale-[0.99]
       `,
       secondary: `
-        bg-slate-700 hover:bg-slate-600 text-slate-50
-        focus:ring-2 focus:ring-primary-600/40 focus:ring-offset-1
-        border border-slate-600 hover:border-slate-500
+        bg-zinc-800 hover:bg-zinc-700 text-zinc-200
+        focus:ring-2 focus:ring-zinc-600/30 focus:ring-offset-1
+        border border-zinc-700 hover:border-zinc-600
       `,
       ghost: `
-        bg-transparent hover:bg-slate-800 text-slate-300 hover:text-slate-100
-        focus:ring-2 focus:ring-primary-600/40 focus:ring-offset-1
+        bg-transparent hover:bg-zinc-800/50 text-zinc-400 hover:text-zinc-200
+        focus:ring-2 focus:ring-zinc-600/30 focus:ring-offset-1
       `,
       outline: `
-        bg-transparent border border-slate-700 hover:border-primary-600
-        text-slate-300 hover:text-slate-100 hover:bg-slate-800
-        focus:ring-2 focus:ring-primary-600/40 focus:ring-offset-1
+        bg-transparent border border-zinc-700 hover:border-zinc-600
+        text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50
+        focus:ring-2 focus:ring-zinc-600/30 focus:ring-offset-1
       `,
     };
 

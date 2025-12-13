@@ -135,11 +135,10 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
                 {chatHistory.map((chat) => (
                   <div
                     key={chat.chat_id}
-                    className={`group flex items-center justify-between px-3 py-2.5 mb-1 relative transition-colors rounded-xl cursor-pointer ${
-                      currentChatId === chat.chat_id
-                        ? "text-zinc-100 bg-zinc-800/90"
-                        : "text-zinc-400 hover:bg-zinc-800/50"
-                    }`}
+                    className={`group flex items-center justify-between px-3 py-2.5 mb-1 relative transition-colors rounded-xl cursor-pointer ${currentChatId === chat.chat_id
+                      ? "text-zinc-100 bg-zinc-800/90"
+                      : "text-zinc-400 hover:bg-zinc-800/50"
+                      }`}
                     onClick={() => onSelectChat(chat.chat_id)}
                   >
                     {currentChatId === chat.chat_id && (
@@ -253,23 +252,23 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
           maxWidth="custom"
           customWidth="max-w-md sm:max-w-lg"
         >
-          <div className="px-2 py-4">
+          <div className="px-4 py-6">
             {/* Header */}
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-bold text-slate-50 mb-2">
-                {authMode === "login" ? "Welcome back" : "Get started"}
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-bold text-zinc-100 mb-3">
+                {authMode === "login" ? "Welcome back" : "Create account"}
               </h2>
-              <p className="text-slate-300 text-sm">
+              <p className="text-zinc-400 text-base">
                 {authMode === "login"
-                  ? "Sign in to continue to your account"
-                  : "Create your account to get started"}
+                  ? "Sign in to continue your conversation"
+                  : "Join us to get started"}
               </p>
             </div>
 
-            <form onSubmit={onAuth} className="space-y-5">
+            <form onSubmit={onAuth} className="space-y-6">
               {error && (
-                <div className="bg-error-500/10 border border-error-500/20 rounded-lg p-4">
-                  <p className="text-error-400 text-sm font-medium">
+                <div className="bg-red-500/5 border border-red-500/20 rounded-xl p-4">
+                  <p className="text-red-400 text-sm">
                     {typeof error === "string" ? error : "An error occurred."}
                   </p>
                 </div>
@@ -319,7 +318,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
                 theme="auth"
               />
 
-              <div className="pt-2">
+              <div className="pt-4">
                 <MinimalButton
                   type="submit"
                   loading={authLoading}
@@ -328,24 +327,27 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
                   variant="primary"
                   theme="auth"
                 >
-                  {authMode === "login" ? "Sign In" : "Create Account"}
+                  {authMode === "login" ? "Sign in" : "Create account"}
                 </MinimalButton>
               </div>
             </form>
 
             {/* Switch Mode */}
-            <div className="mt-8 text-center">
-              <button
-                type="button"
-                onClick={() =>
-                  onSetAuthMode(authMode === "login" ? "signup" : "login")
-                }
-                className="text-slate-50 hover:text-auth-600 text-sm transition-colors duration-200"
-              >
+            <div className="mt-10 text-center">
+              <p className="text-zinc-500 text-sm">
                 {authMode === "login"
-                  ? "Don't have an account? Sign up"
-                  : "Already have an account? Sign in"}
-              </button>
+                  ? "Don't have an account? "
+                  : "Already have an account? "}
+                <button
+                  type="button"
+                  onClick={() =>
+                    onSetAuthMode(authMode === "login" ? "signup" : "login")
+                  }
+                  className="text-zinc-300 hover:text-zinc-100 font-medium transition-colors duration-200 decoration-zinc-600 hover:decoration-zinc-400"
+                >
+                  {authMode === "login" ? "Sign up" : "Sign in"}
+                </button>
+              </p>
             </div>
           </div>
         </Modal>

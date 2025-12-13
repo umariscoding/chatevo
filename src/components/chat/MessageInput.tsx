@@ -60,9 +60,8 @@ const MessageInput: React.FC<MessageInputProps> = ({
     <div className={`w-full ${className}`}>
       <form onSubmit={handleSubmit} className="space-y-3">
         <div
-          className={`relative flex items-center bg-zinc-900 backdrop-blur-xl p-3 border border-zinc-700 focus-within:border-zinc-600 focus-within:bg-zinc-800 focus-within:shadow-lg focus-within:shadow-zinc-900/50 transition-all shadow-lg shadow-zinc-950/50 ${
-            isMultiline ? "rounded-3xl" : "rounded-full"
-          }`}
+          className={`relative flex items-center bg-zinc-800 backdrop-blur-xl p-3 focus-within:ring-2 focus-within:ring-zinc-700 focus-within:bg-zinc-750 transition-all shadow-lg shadow-zinc-950/50 ${isMultiline ? "rounded-3xl" : "rounded-full"
+            }`}
         >
           <div className="flex-1 flex items-center">
             <textarea

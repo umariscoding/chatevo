@@ -55,14 +55,14 @@ const MinimalInput = React.forwardRef<HTMLInputElement, MinimalInputProps>(
       },
       auth: {
         input:
-          "border-slate-700 text-slate-50 focus:border-primary-500 focus:ring-primary-600/30",
+          "border-0 text-zinc-200 focus:ring-2 focus:ring-zinc-700 bg-zinc-800 hover:bg-zinc-750",
         label: {
-          default: "text-slate-300",
-          focused: "text-primary-400",
+          default: "text-zinc-500",
+          focused: "text-zinc-300",
           error: "text-red-400",
         },
         error: "text-red-400",
-        passwordToggle: "text-slate-400 hover:text-slate-200",
+        passwordToggle: "text-zinc-500 hover:text-zinc-300",
       },
     };
 
@@ -108,10 +108,9 @@ const MinimalInput = React.forwardRef<HTMLInputElement, MinimalInputProps>(
           <label
             className={`
               absolute left-4 transition-all duration-150 pointer-events-none
-              ${
-                focused || hasValue
-                  ? `top-2 text-xs font-medium ${focused ? currentTheme.label.focused : currentTheme.label.default}`
-                  : `top-1/2 -translate-y-1/2 text-sm ${currentTheme.label.default}`
+              ${focused || hasValue
+                ? `top-2 text-xs font-medium ${focused ? currentTheme.label.focused : currentTheme.label.default}`
+                : `top-1/2 -translate-y-1/2 text-sm ${currentTheme.label.default}`
               }
               ${error ? currentTheme.label.error : ""}
             `}

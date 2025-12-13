@@ -46,9 +46,9 @@ const Modal: React.FC<ModalProps> = ({
       border: "border-neutral-800",
     },
     auth: {
-      background: "bg-zinc-950",
-      text: "text-zinc-50",
-      closeButton: "text-zinc-400 hover:text-zinc-300",
+      background: "bg-zinc-900",
+      text: "text-zinc-100",
+      closeButton: "text-zinc-500 hover:text-zinc-300",
       closeButtonBg: "bg-transparent",
       border: "border-zinc-800",
     },
@@ -60,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex min-h-screen items-center justify-center p-4 text-center sm:p-0">
         <div
-          className="fixed inset-0 bg-zinc-950 bg-opacity-75 transition-opacity"
+          className="fixed inset-0 bg-backdrop backdrop-blur-sm transition-opacity"
           onClick={onClose}
         ></div>
 

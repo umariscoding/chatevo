@@ -100,6 +100,8 @@ export default {
       gray: {
         500: "var(--color-zinc-500)",
       },
+      // Modal backdrop
+      backdrop: "rgba(0, 0, 0, 0.6)",
     },
   },
   plugins: [],
