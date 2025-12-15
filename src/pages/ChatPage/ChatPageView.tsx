@@ -236,7 +236,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
             <MessageInput
               onSendMessage={onSendMessage}
               disabled={isStreaming || isThinking}
-              className="w-full shadow-lg"
+              className="w-full"
             />
           </div>
         </div>
