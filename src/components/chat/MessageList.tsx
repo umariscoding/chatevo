@@ -1,92 +1,104 @@
-import React, { useEffect, useRef, memo } from "react";
+import React, { useEffect, useRef, memo, useMemo } from "react";
 import ReactMarkdown from "react-markdown";
 import TypingIndicator from "./TypingIndicator";
 import type { MessageListProps, MessageBubbleProps } from "@/types/interfaces";
 
-const markdownComponents = {
-  p: ({ children }: any) => <p className="my-1.5">{children}</p>,
-  strong: ({ children }: any) => (
-    <strong className="font-semibold text-zinc-100">{children}</strong>
-  ),
-  em: ({ children }: any) => (
-    <em className="italic text-zinc-300">{children}</em>
-  ),
-  h1: ({ children }: any) => (
-    <h1 className="text-xl font-bold text-zinc-100 mt-4 mb-2">{children}</h1>
-  ),
-  h2: ({ children }: any) => (
-    <h2 className="text-lg font-bold text-zinc-100 mt-3 mb-1.5">{children}</h2>
-  ),
-  h3: ({ children }: any) => (
-    <h3 className="text-base font-semibold text-zinc-200 mt-2 mb-1">
-      {children}
-    </h3>
-  ),
-  ul: ({ children }: any) => (
-    <ul className="list-disc pl-5 my-1.5 space-y-0.5">{children}</ul>
-  ),
-  ol: ({ children }: any) => (
-    <ol className="list-decimal pl-5 my-1.5 space-y-0.5">{children}</ol>
-  ),
-  li: ({ children }: any) => <li className="my-0.5">{children}</li>,
-  code: ({ className, children, ...props }: any) => {
-    const isBlock = className?.includes("language-");
-    if (isBlock) {
-      return (
-        <pre className="bg-zinc-800 rounded-lg p-3 my-2 overflow-x-auto">
+const StreamingCursor = () => (
+  <span className="inline-block w-[3px] h-[1.1em] bg-zinc-400 ml-0.5 align-middle animate-pulse rounded-[1px]" />
+);
+
+function useMarkdownComponents(isStreaming: boolean) {
+  return useMemo(() => {
+    const LastChildCursor = isStreaming ? StreamingCursor : () => null;
+
+    return {
+      p: ({ children }: any) => (
+        <p className="my-1.5 leading-relaxed">
+          {children}
+          <LastChildCursor />
+        </p>
+      ),
+      strong: ({ children }: any) => (
+        <strong className="font-semibold text-zinc-100">{children}</strong>
+      ),
+      em: ({ children }: any) => (
+        <em className="italic text-zinc-300">{children}</em>
+      ),
+      h1: ({ children }: any) => (
+        <h1 className="text-xl font-bold text-zinc-100 mt-4 mb-2">
+          {children}
+        </h1>
+      ),
+      h2: ({ children }: any) => (
+        <h2 className="text-lg font-bold text-zinc-100 mt-3 mb-1.5">
+          {children}
+        </h2>
+      ),
+      h3: ({ children }: any) => (
+        <h3 className="text-base font-semibold text-zinc-200 mt-2 mb-1">
+          {children}
+        </h3>
+      ),
+      ul: ({ children }: any) => (
+        <ul className="list-disc pl-5 my-1.5 space-y-0.5">{children}</ul>
+      ),
+      ol: ({ children }: any) => (
+        <ol className="list-decimal pl-5 my-1.5 space-y-0.5">{children}</ol>
+      ),
+      li: ({ children }: any) => (
+        <li className="my-0.5 leading-relaxed">{children}</li>
+      ),
+      code: ({ className, children, ...props }: any) => {
+        const isBlock = className?.includes("language-");
+        if (isBlock) {
+          return (
+            <pre className="bg-zinc-800/80 rounded-lg p-3 my-2 overflow-x-auto border border-zinc-700/50">
+              <code
+                className={`text-sm text-zinc-200 ${className || ""}`}
+                {...props}
+              >
+                {children}
+              </code>
+            </pre>
+          );
+        }
+        return (
           <code
-            className={`text-sm text-zinc-200 ${className || ""}`}
+            className="bg-zinc-800 text-zinc-200 px-1.5 py-0.5 rounded text-[0.875em]"
             {...props}
           >
             {children}
           </code>
-        </pre>
-      );
-    }
-    return (
-      <code
-        className="bg-zinc-800 text-zinc-200 px-1.5 py-0.5 rounded text-sm"
-        {...props}
-      >
-        {children}
-      </code>
-    );
-  },
-  pre: ({ children }: any) => <>{children}</>,
-  blockquote: ({ children }: any) => (
-    <blockquote className="border-l-2 border-zinc-600 pl-3 my-2 text-zinc-400 italic">
-      {children}
-    </blockquote>
-  ),
-  a: ({ children, href }: any) => (
-    <a
-      href={href}
-      className="text-blue-500 underline hover:text-blue-400"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {children}
-    </a>
-  ),
-  hr: () => <hr className="border-zinc-700 my-3" />,
-};
+        );
+      },
+      pre: ({ children }: any) => <>{children}</>,
+      blockquote: ({ children }: any) => (
+        <blockquote className="border-l-2 border-zinc-600 pl-3 my-2 text-zinc-400 italic">
+          {children}
+        </blockquote>
+      ),
+      a: ({ children, href }: any) => (
+        <a
+          href={href}
+          className="text-blue-500 underline hover:text-blue-400"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {children}
+        </a>
+      ),
+      hr: () => <hr className="border-zinc-700 my-3" />,
+    };
+  }, [isStreaming]);
+}
 
 const MarkdownContent: React.FC<{ content: string; isStreaming?: boolean }> =
   memo(({ content, isStreaming = false }) => {
-    if (isStreaming) {
-      return (
-        <div className="break-words leading-relaxed whitespace-pre-wrap">
-          {content}
-          <span className="inline-block w-2 h-5 bg-zinc-600 ml-0.5 align-middle animate-pulse rounded-sm" />
-        </div>
-      );
-    }
+    const components = useMarkdownComponents(isStreaming);
 
     return (
-      <div className="markdown-body break-words leading-relaxed">
-        <ReactMarkdown components={markdownComponents}>
-          {content}
-        </ReactMarkdown>
+      <div className="break-words leading-relaxed">
+        <ReactMarkdown components={components}>{content}</ReactMarkdown>
       </div>
     );
   });
