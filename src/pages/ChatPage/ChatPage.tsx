@@ -203,8 +203,6 @@ const ChatPage: React.FC = () => {
               const data = JSON.parse(line.slice(6));
               if (data.type === "start" && data.chat_id) {
                 setCurrentChatId(data.chat_id);
-                setIsThinking(false);
-                setIsStreaming(true);
                 if (
                   isUserLoggedIn &&
                   !chatHistory.find((c) => c.chat_id === data.chat_id)
