@@ -204,6 +204,48 @@ input:-webkit-autofill:focus {
   }
 }
 
+/* Streaming cursor — CSS only, appears after the LAST element inside the message.
+   Uses :last-child to guarantee exactly one cursor regardless of how many <p>/<li>/etc exist. */
+.ai-message-content.is-streaming > :last-child::after {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 1.1em;
+  background-color: var(--color-zinc-400);
+  margin-left: 3px;
+  vertical-align: middle;
+  border-radius: 1px;
+  animation: cursorBlink 1s steps(2, start) infinite;
+}
+
+/* Handle nested last-child (e.g. last <li> inside last <ul>) */
+.ai-message-content.is-streaming > :last-child > :last-child::after {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 1.1em;
+  background-color: var(--color-zinc-400);
+  margin-left: 3px;
+  vertical-align: middle;
+  border-radius: 1px;
+  animation: cursorBlink 1s steps(2, start) infinite;
+}
+
+/* When the last child itself has the nested cursor, hide the parent-level one */
+.ai-message-content.is-streaming > :last-child:has(> :last-child::after)::after {
+  display: none;
+}
+
+@keyframes cursorBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+  40% { opacity: 1; transform: scale(1); }
+}
+
 /* Morphing animation for typing indicator */
 @keyframes morphing {
   0%,
