@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, memo } from "react";
 import ReactMarkdown from "react-markdown";
 import TypingIndicator from "./TypingIndicator";
+import IOSLoader from "@/components/ui/IOSLoader";
 import type { MessageListProps, MessageBubbleProps } from "@/types/interfaces";
 
 /**
@@ -132,6 +133,7 @@ const MessageList: React.FC<MessageListProps> = memo(
     messages,
     streamingMessage = "",
     loading = false,
+    chatLoading = false,
     className = "",
     chatbotTitle = "",
   }) => {
@@ -142,12 +144,12 @@ const MessageList: React.FC<MessageListProps> = memo(
       messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, streamingMessage]);
 
-    if (loading && messages.length === 0) {
+    if ((loading || chatLoading) && messages.length === 0) {
       return (
         <div
           className={`flex-1 flex items-center justify-center p-8 ${className}`}
         >
-          <p className="text-sm text-zinc-500">Loading...</p>
+          <IOSLoader size="md" color="zinc" />
         </div>
       );
     }

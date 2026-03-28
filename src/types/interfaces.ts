@@ -4,6 +4,7 @@ export interface MessageListProps {
   messages: Message[];
   streamingMessage?: string;
   loading?: boolean;
+  chatLoading?: boolean;
   className?: string;
   chatbotTitle?: string;
 }

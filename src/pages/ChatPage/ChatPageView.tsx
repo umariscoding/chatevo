@@ -36,6 +36,7 @@ interface ChatPageViewProps {
   streamingMessage: string;
   isStreaming: boolean;
   isThinking: boolean;
+  chatLoading: boolean;
   error: string | null;
   isUserLoggedIn: boolean;
   userAuth: UserAuth;
@@ -65,6 +66,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
   streamingMessage,
   isStreaming,
   isThinking,
+  chatLoading,
   error,
   isUserLoggedIn,
   userAuth,
@@ -92,7 +94,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
         <div className="w-64 bg-zinc-950 text-white flex flex-col border-r border-zinc-800">
           <div className="p-4">
             <div className="flex flex-col space-y-3">
-              <h2 className="text-lg font-medium text-zinc-100">
+              <h2 className="text-lg font-medium font-display text-zinc-100">
                 Hello, {userAuth.user?.name?.split(" ")[0] || "User"}
               </h2>
               <button
@@ -174,7 +176,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
         <div className="px-6 py-3 absolute top-0 left-0 right-0 z-10 bg-gradient-to-b from-zinc-950 to-transparent">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-lg text-zinc-200">
+              <h1 className="text-lg font-display font-semibold text-zinc-200 tracking-tight">
                 {companyInfo?.chatbot_title || "Chat"}
               </h1>
             </div>
@@ -221,6 +223,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
               messages={messages}
               streamingMessage={streamingMessage}
               loading={isThinking}
+              chatLoading={chatLoading}
               chatbotTitle={
                 companyInfo?.chatbot_title || companyInfo?.name || ""
               }
@@ -255,7 +258,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
           <div className="px-4 py-6">
             {/* Header */}
             <div className="text-center mb-10">
-              <h2 className="text-3xl font-bold text-zinc-100 mb-3">
+              <h2 className="text-3xl font-bold font-display text-zinc-100 mb-3 tracking-tight">
                 {authMode === "login" ? "Welcome back" : "Create account"}
               </h2>
               <p className="text-zinc-400 text-base">

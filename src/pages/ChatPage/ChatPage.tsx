@@ -11,6 +11,8 @@ import {
 import { generateChatTitle } from "@/utils/chatUtils";
 import { parseSubdomain } from "@/utils/subdomainParser";
 import { getApiUrl } from "@/constants/api";
+import { useToast } from "@/components/ui/Toast";
+import IOSLoader from "@/components/ui/IOSLoader";
 
 interface CompanyInfo {
   company_id: string;
@@ -31,6 +33,7 @@ interface ChatHistory {
 const ChatPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
+  const toast = useToast();
 
   // Try to get slug from URL params first, then from subdomain
   const slug =
@@ -57,6 +60,7 @@ const ChatPage: React.FC = () => {
     name: "",
   });
   const [authLoading, setAuthLoading] = useState(false);
+  const [chatLoading, setChatLoading] = useState(false);
 
   // Track guest token creation to prevent duplicates
   const guestTokenCreationRef = useRef(false);
@@ -247,7 +251,7 @@ const ChatPage: React.FC = () => {
         }
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to send message");
+      toast.error(err instanceof Error ? err.message : "Failed to send message");
       setIsStreaming(false);
       setIsThinking(false);
       setStreamingMessage("");
@@ -294,8 +298,9 @@ const ChatPage: React.FC = () => {
       setIsStreaming(false);
       setError(null);
       setAuthData({ email: "", password: "", name: "" });
+      toast.success(authMode === "login" ? "Signed in successfully" : "Account created successfully");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Authentication failed");
+      toast.error(err instanceof Error ? err.message : "Authentication failed");
     } finally {
       setAuthLoading(false);
     }
@@ -319,6 +324,7 @@ const ChatPage: React.FC = () => {
       setIsThinking(false);
       setIsStreaming(false);
       setError(null);
+      setChatLoading(true);
       const response = await fetch(getApiUrl(`/chat/history/${chatId}`), {
         headers: { Authorization: `Bearer ${userAuth.tokens.access_token}` },
       });
@@ -336,7 +342,9 @@ const ChatPage: React.FC = () => {
       }
     } catch (err) {
       console.error("Failed to load chat history:", err);
-      setError("Failed to load chat history");
+      toast.error("Failed to load chat history");
+    } finally {
+      setChatLoading(false);
     }
   };
 
@@ -388,6 +396,7 @@ const ChatPage: React.FC = () => {
   const handleLogout = async () => {
     try {
       dispatch(logoutUser());
+      toast.info("Signed out");
       setMessages([]);
       setChatHistory([]);
       setCurrentChatId(null);
@@ -418,14 +427,14 @@ const ChatPage: React.FC = () => {
       }
     } catch (err) {
       console.error("Failed to create guest session after logout:", err);
-      setError("Failed to create guest session");
+      toast.error("Failed to create guest session");
     }
   };
 
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center bg-zinc-950">
-        <p className="text-lg text-zinc-500">Loading...</p>
+        <IOSLoader size="lg" color="zinc" />
       </div>
     );
   }
@@ -454,6 +463,7 @@ const ChatPage: React.FC = () => {
       streamingMessage={streamingMessage}
       isStreaming={isStreaming}
       isThinking={isThinking}
+      chatLoading={chatLoading}
       error={error}
       isUserLoggedIn={isUserLoggedIn}
       userAuth={userAuth}

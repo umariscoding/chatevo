@@ -7,14 +7,15 @@ const MessageInput: React.FC<MessageInputProps> = ({
   onSendMessage,
   loading = false,
   disabled = false,
-  placeholder = "Type your message...",
+  placeholder = "Ask anything...",
   className = "",
 }) => {
   const [message, setMessage] = useState("");
   const [isMultiline, setIsMultiline] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const selectedModel: ModelType = "Llama-instant"; // Default to Llama-instant (uses Groq)
+  const selectedModel: ModelType = "Llama-instant";
 
   const handleSubmit = useCallback(
     (e: React.FormEvent) => {
@@ -47,7 +48,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
       const textarea = e.target;
       textarea.style.height = "auto";
-      const newHeight = Math.min(textarea.scrollHeight, 150);
+      const newHeight = Math.min(textarea.scrollHeight, 160);
       textarea.style.height = newHeight + "px";
 
       const minSingleLineHeight = 40;
@@ -56,12 +57,22 @@ const MessageInput: React.FC<MessageInputProps> = ({
     [],
   );
 
+  const hasContent = message.trim().length > 0;
+
   return (
     <div className={`w-full ${className}`}>
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit}>
         <div
-          className={`relative flex items-center bg-zinc-800 backdrop-blur-xl p-3 focus-within:ring-2 focus-within:ring-zinc-700 focus-within:bg-zinc-750 transition-all ${isMultiline ? "rounded-3xl" : "rounded-full"
-            }`}
+          className={`relative flex items-end gap-2 p-2 transition-all duration-200 ${
+            isMultiline ? "rounded-2xl" : "rounded-full"
+          }`}
+          style={{
+            background: "var(--surface-tertiary)",
+            border: `1px solid ${isFocused ? "var(--border-primary)" : "var(--border-tertiary)"}`,
+            boxShadow: isFocused
+              ? "0 0 0 3px var(--focus-ring), 0 8px 32px rgba(0,0,0,0.3)"
+              : "0 4px 24px rgba(0,0,0,0.2)",
+          }}
         >
           <div className="flex-1 flex items-center">
             <textarea
@@ -69,35 +80,58 @@ const MessageInput: React.FC<MessageInputProps> = ({
               value={message}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
               placeholder={placeholder}
               disabled={loading || disabled}
               rows={1}
-              className="w-full resize-none bg-transparent border-0 pl-3 focus:outline-none placeholder:text-zinc-500 text-zinc-200 text-sm leading-normal"
+              className="w-full resize-none bg-transparent border-0 pl-3 focus:outline-none text-[14px] leading-normal"
               style={{
                 height: "40px",
                 minHeight: "40px",
-                maxHeight: "150px",
+                maxHeight: "160px",
                 paddingTop: "10px",
                 overflow: message ? "auto" : "hidden",
+                color: "var(--text-primary)",
               }}
             />
           </div>
 
+          {/* Send button */}
           <button
             type="submit"
-            disabled={!message.trim() || loading || disabled}
-            className="flex-shrink-0 p-2 hover:opacity-80 disabled:opacity-30 disabled:cursor-not-allowed transition-opacity"
+            disabled={!hasContent || loading || disabled}
+            className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200 mb-0.5"
+            style={{
+              background: hasContent && !loading && !disabled
+                ? "var(--accent-primary)"
+                : "transparent",
+              color: hasContent && !loading && !disabled
+                ? "var(--color-char-950)"
+                : "var(--text-muted)",
+              opacity: !hasContent || loading || disabled ? 0.4 : 1,
+              transform: hasContent ? "scale(1)" : "scale(0.9)",
+            }}
           >
             {loading ? (
-              <div className="w-5 h-5 border-2 border-zinc-400 border-t-transparent rounded-full animate-spin" />
+              <div
+                className="w-4 h-4 border-2 rounded-full animate-spin"
+                style={{
+                  borderColor: "var(--text-muted)",
+                  borderTopColor: "transparent",
+                }}
+              />
             ) : (
-              <Icons.Send className="w-5 h-5 text-zinc-400" />
+              <Icons.ArrowUp className="w-4 h-4" />
             )}
           </button>
         </div>
 
-        <div className="text-xs text-zinc-600 text-center">
-          Press Enter to send, Shift+Enter for new line
+        {/* Hint text */}
+        <div className="mt-2 text-center">
+          <span className="text-[11px]" style={{ color: "var(--text-muted)", opacity: 0.6 }}>
+            Enter to send · Shift+Enter for new line
+          </span>
         </div>
       </form>
     </div>

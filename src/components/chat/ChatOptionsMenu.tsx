@@ -3,6 +3,7 @@ import Modal from "@/components/ui/Modal";
 import MinimalInput from "@/components/ui/MinimalInput";
 import MinimalButton from "@/components/ui/MinimalButton";
 import { Icons } from "@/components/ui/Icons";
+import { useToast } from "@/components/ui/Toast";
 
 interface ChatOptionsMenuProps {
   chatId: string;
@@ -17,6 +18,7 @@ const ChatOptionsMenu: React.FC<ChatOptionsMenuProps> = ({
   onRename,
   onDelete,
 }) => {
+  const toast = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [showRenameModal, setShowRenameModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -51,8 +53,9 @@ const ChatOptionsMenu: React.FC<ChatOptionsMenuProps> = ({
     try {
       await onRename(chatId, newTitle.trim());
       setShowRenameModal(false);
+      toast.success("Chat renamed");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to rename chat");
+      toast.error(err instanceof Error ? err.message : "Failed to rename chat");
     } finally {
       setIsLoading(false);
     }
@@ -65,8 +68,9 @@ const ChatOptionsMenu: React.FC<ChatOptionsMenuProps> = ({
     try {
       await onDelete(chatId);
       setShowDeleteModal(false);
+      toast.success("Chat deleted");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete chat");
+      toast.error(err instanceof Error ? err.message : "Failed to delete chat");
     } finally {
       setIsLoading(false);
     }
