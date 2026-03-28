@@ -20,6 +20,7 @@ interface CompanyInfo {
   slug: string;
   chatbot_title: string;
   chatbot_description: string;
+  enable_user_portal: boolean;
 }
 
 interface ChatHistory {
@@ -88,7 +89,7 @@ const ChatPage: React.FC = () => {
   useEffect(() => {
     const createGuestToken = async () => {
       // Prevent duplicate guest token creation
-      if (!isUserLoggedIn && !guestToken && companyInfo && !guestTokenCreationRef.current) {
+      if (!isUserLoggedIn && !guestToken && companyInfo && companyInfo.enable_user_portal && !guestTokenCreationRef.current) {
         guestTokenCreationRef.current = true;
         try {
           // Check if there's a stored guest token first
@@ -450,6 +451,38 @@ const ChatPage: React.FC = () => {
             {typeof error === "string"
               ? error
               : "An error occurred while loading the chatbot."}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (companyInfo && !companyInfo.enable_user_portal) {
+    return (
+      <div className="h-screen flex items-center justify-center bg-zinc-950">
+        <div className="text-center max-w-md px-6">
+          <div className="w-16 h-16 bg-zinc-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="text-zinc-400"
+            >
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+          </div>
+          <h1 className="text-2xl font-bold text-white mb-3">
+            {companyInfo.chatbot_title || companyInfo.name}
+          </h1>
+          <p className="text-zinc-400 leading-relaxed">
+            This chatbot is available as an embedded widget on the company's
+            website. The standalone chat page is not enabled.
           </p>
         </div>
       </div>
