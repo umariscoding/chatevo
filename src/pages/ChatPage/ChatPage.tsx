@@ -5,6 +5,7 @@ import type { Message, ModelType } from "@/types/chat";
 import { useAppSelector, useAppDispatch } from "@/hooks/useAppDispatch";
 import {
   setUserData,
+  loadFromStorage,
   logout as logoutUser,
 } from "@/store/slices/userAuthSlice";
 import { generateChatTitle } from "@/utils/chatUtils";
@@ -36,7 +37,7 @@ const ChatPage: React.FC = () => {
     params.slug || parseSubdomain(window.location.hostname) || "default";
 
   const userAuth = useAppSelector((state) => state.userAuth);
-  const isUserLoggedIn = userAuth.isAuthenticated;
+  const isUserLoggedIn = userAuth.isAuthenticated && userAuth.companySlug === slug;
 
   const [companyInfo, setCompanyInfo] = useState<CompanyInfo | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -59,6 +60,11 @@ const ChatPage: React.FC = () => {
 
   // Track guest token creation to prevent duplicates
   const guestTokenCreationRef = useRef(false);
+
+  // Load auth scoped to the current slug
+  useEffect(() => {
+    dispatch(loadFromStorage(slug));
+  }, [slug]);
 
   useEffect(() => {
     initializeChat();
@@ -274,7 +280,7 @@ const ChatPage: React.FC = () => {
       });
       if (!response.ok) throw new Error("Authentication failed");
       const data = await response.json();
-      dispatch(setUserData({ user: data.user, tokens: data.tokens }));
+      dispatch(setUserData({ user: data.user, tokens: data.tokens, companySlug: slug }));
       setShowAuthModal(false);
       setGuestToken(null);
       // Clear guest token from session storage on authentication

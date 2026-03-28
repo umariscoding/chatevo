@@ -7,6 +7,7 @@ interface UserAuthState {
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
+  companySlug: string | null;
 }
 
 const initialState: UserAuthState = {
@@ -15,7 +16,12 @@ const initialState: UserAuthState = {
   isAuthenticated: false,
   loading: false,
   error: null,
+  companySlug: null,
 };
+
+function storageKey(slug: string, key: string): string {
+  return `${key}_${slug}`;
+}
 
 const userAuthSlice = createSlice({
   name: "userAuth",
@@ -31,40 +37,54 @@ const userAuthSlice = createSlice({
       state.loading = action.payload;
     },
     logout: (state) => {
+      const slug = state.companySlug;
       state.user = null;
       state.tokens = null;
       state.isAuthenticated = false;
       state.loading = false;
       state.error = null;
+      state.companySlug = null;
 
+      if (slug) {
+        localStorage.removeItem(storageKey(slug, "user_access_token"));
+        localStorage.removeItem(storageKey(slug, "user_refresh_token"));
+        localStorage.removeItem(storageKey(slug, "user_data"));
+      }
+      // Also clean up legacy global keys
       localStorage.removeItem("user_access_token");
       localStorage.removeItem("user_refresh_token");
       localStorage.removeItem("user_data");
     },
     setUserData: (
       state,
-      action: PayloadAction<{ user: User; tokens: Tokens }>,
+      action: PayloadAction<{ user: User; tokens: Tokens; companySlug: string }>,
     ) => {
       state.user = action.payload.user;
       state.tokens = action.payload.tokens;
       state.isAuthenticated = true;
       state.loading = false;
       state.error = null;
+      state.companySlug = action.payload.companySlug;
 
+      const slug = action.payload.companySlug;
       localStorage.setItem(
-        "user_access_token",
+        storageKey(slug, "user_access_token"),
         action.payload.tokens.access_token,
       );
       localStorage.setItem(
-        "user_refresh_token",
+        storageKey(slug, "user_refresh_token"),
         action.payload.tokens.refresh_token,
       );
-      localStorage.setItem("user_data", JSON.stringify(action.payload.user));
+      localStorage.setItem(
+        storageKey(slug, "user_data"),
+        JSON.stringify(action.payload.user),
+      );
     },
-    loadFromStorage: (state) => {
-      const accessToken = localStorage.getItem("user_access_token");
-      const refreshToken = localStorage.getItem("user_refresh_token");
-      const userData = localStorage.getItem("user_data");
+    loadFromStorage: (state, action: PayloadAction<string>) => {
+      const slug = action.payload;
+      const accessToken = localStorage.getItem(storageKey(slug, "user_access_token"));
+      const refreshToken = localStorage.getItem(storageKey(slug, "user_refresh_token"));
+      const userData = localStorage.getItem(storageKey(slug, "user_data"));
 
       if (accessToken && refreshToken) {
         state.tokens = {
@@ -73,6 +93,7 @@ const userAuthSlice = createSlice({
           token_type: "bearer",
         };
         state.isAuthenticated = true;
+        state.companySlug = slug;
 
         if (userData) {
           try {
@@ -81,11 +102,17 @@ const userAuthSlice = createSlice({
             console.warn("Failed to parse stored user data:", error);
           }
         }
+      } else {
+        // No token for this slug — reset auth state
+        state.user = null;
+        state.tokens = null;
+        state.isAuthenticated = false;
+        state.companySlug = null;
       }
     },
   },
 });
 
-export const { logout, setUserData } = userAuthSlice.actions;
+export const { logout, setUserData, loadFromStorage } = userAuthSlice.actions;
 
 export default userAuthSlice.reducer;
