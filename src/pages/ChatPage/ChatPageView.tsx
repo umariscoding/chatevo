@@ -144,7 +144,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
                     onClick={() => onSelectChat(chat.chat_id)}
                   >
                     {currentChatId === chat.chat_id && (
-                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4/6 bg-blue-500 rounded-full" />
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4/6 bg-[#6366f1] rounded-full" />
                     )}
                     <div className="flex-1 text-left overflow-hidden pr-2">
                       <div className="truncate text-sm font-medium">
@@ -346,7 +346,7 @@ const ChatPageView: React.FC<ChatPageViewProps> = ({
                   onClick={() =>
                     onSetAuthMode(authMode === "login" ? "signup" : "login")
                   }
-                  className="text-zinc-300 hover:text-zinc-100 font-medium transition-colors duration-200 decoration-zinc-600 hover:decoration-zinc-400"
+                  className="text-[#818cf8] hover:text-[#a5b4fc] font-medium transition-colors duration-200"
                 >
                   {authMode === "login" ? "Sign up" : "Sign in"}
                 </button>

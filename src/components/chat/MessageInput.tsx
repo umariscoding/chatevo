@@ -104,10 +104,10 @@ const MessageInput: React.FC<MessageInputProps> = ({
             className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-full transition-all duration-200 mb-0.5"
             style={{
               background: hasContent && !loading && !disabled
-                ? "var(--accent-primary)"
+                ? "#6366f1"
                 : "transparent",
               color: hasContent && !loading && !disabled
-                ? "var(--color-char-950)"
+                ? "#ffffff"
                 : "var(--text-muted)",
               opacity: !hasContent || loading || disabled ? 0.4 : 1,
               transform: hasContent ? "scale(1)" : "scale(0.9)",

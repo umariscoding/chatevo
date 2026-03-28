@@ -34,46 +34,46 @@ const MinimalButton = React.forwardRef<HTMLButtonElement, MinimalButtonProps>(
 
     const defaultVariants = {
       primary: `
-        bg-zinc-700 hover:bg-zinc-600 text-white
-        focus:ring-2 focus:ring-zinc-500/40 focus:ring-offset-1
-        shadow-lg shadow-zinc-900/50 hover:shadow-xl hover:shadow-zinc-900/60
+        bg-[#6366f1] hover:bg-[#4f46e5] text-white hover:text-white
+        focus:ring-2 focus:ring-[rgba(99,102,241,0.4)] focus:ring-offset-1
+        shadow-lg shadow-[rgba(99,102,241,0.25)] hover:shadow-xl hover:shadow-[rgba(99,102,241,0.35)]
       `,
       secondary: `
-        bg-zinc-800 hover:bg-zinc-700 text-zinc-100
-        focus:ring-2 focus:ring-zinc-500/40 focus:ring-offset-1
+        bg-zinc-800 hover:bg-zinc-700 text-zinc-100 hover:text-white
+        focus:ring-2 focus:ring-[rgba(99,102,241,0.3)] focus:ring-offset-1
         border border-zinc-700 hover:border-zinc-600
       `,
       ghost: `
         bg-transparent hover:bg-zinc-800 text-zinc-300 hover:text-zinc-100
-        focus:ring-2 focus:ring-zinc-500/40 focus:ring-offset-1
+        focus:ring-2 focus:ring-[rgba(99,102,241,0.3)] focus:ring-offset-1
       `,
       outline: `
         bg-transparent border border-zinc-700 hover:border-zinc-500
         text-zinc-300 hover:text-zinc-100 hover:bg-zinc-800
-        focus:ring-2 focus:ring-zinc-500/40 focus:ring-offset-1
+        focus:ring-2 focus:ring-[rgba(99,102,241,0.3)] focus:ring-offset-1
       `,
     };
 
     const authVariants = {
       primary: `
-        bg-gradient-to-r from-zinc-700 via-zinc-600 to-zinc-700 hover:from-zinc-600 hover:via-zinc-500 hover:to-zinc-600 text-zinc-100
-        focus:ring-2 focus:ring-zinc-500/30 focus:ring-offset-1 focus:ring-offset-zinc-950
-        shadow-lg shadow-zinc-900/50 hover:shadow-xl hover:shadow-zinc-900/60
+        bg-[#6366f1] hover:bg-[#4f46e5] text-white hover:text-white
+        focus:ring-2 focus:ring-[rgba(99,102,241,0.4)] focus:ring-offset-1 focus:ring-offset-zinc-950
+        shadow-lg shadow-[rgba(99,102,241,0.25)] hover:shadow-xl hover:shadow-[rgba(99,102,241,0.35)]
         hover:scale-[1.01] active:scale-[0.99]
       `,
       secondary: `
-        bg-zinc-800 hover:bg-zinc-700 text-zinc-200
-        focus:ring-2 focus:ring-zinc-600/30 focus:ring-offset-1
+        bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-zinc-100
+        focus:ring-2 focus:ring-[rgba(99,102,241,0.3)] focus:ring-offset-1
         border border-zinc-700 hover:border-zinc-600
       `,
       ghost: `
         bg-transparent hover:bg-zinc-800/50 text-zinc-400 hover:text-zinc-200
-        focus:ring-2 focus:ring-zinc-600/30 focus:ring-offset-1
+        focus:ring-2 focus:ring-[rgba(99,102,241,0.3)] focus:ring-offset-1
       `,
       outline: `
         bg-transparent border border-zinc-700 hover:border-zinc-600
         text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/50
-        focus:ring-2 focus:ring-zinc-600/30 focus:ring-offset-1
+        focus:ring-2 focus:ring-[rgba(99,102,241,0.3)] focus:ring-offset-1
       `,
     };
 

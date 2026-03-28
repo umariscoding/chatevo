@@ -109,25 +109,19 @@ const toastIcons: Record<ToastType, React.ReactNode> = {
 
 const typeStyles: Record<
   ToastType,
-  { bg: string; border: string; text: string; icon: string }
+  { accent: string; icon: string }
 > = {
   success: {
-    bg: "rgba(34, 197, 94, 0.08)",
-    border: "rgba(34, 197, 94, 0.2)",
-    text: "#86efac",
+    accent: "#22c55e",
     icon: "#4ade80",
   },
   error: {
-    bg: "rgba(239, 68, 68, 0.08)",
-    border: "rgba(239, 68, 68, 0.2)",
-    text: "#fca5a5",
+    accent: "#ef4444",
     icon: "#f87171",
   },
   info: {
-    bg: "rgba(96, 165, 250, 0.08)",
-    border: "rgba(96, 165, 250, 0.2)",
-    text: "#93c5fd",
-    icon: "#60a5fa",
+    accent: "#6366f1",
+    icon: "#818cf8",
   },
 };
 
@@ -143,10 +137,9 @@ const ToastItem: React.FC<{
     <div
       className="toast-item"
       style={{
-        background: style.bg,
-        border: `1px solid ${style.border}`,
-        backdropFilter: "blur(16px)",
-        WebkitBackdropFilter: "blur(16px)",
+        background: "#1c1c1e",
+        border: "1px solid rgba(255, 255, 255, 0.08)",
+        borderLeft: `3px solid ${style.accent}`,
         animation: t.exiting
           ? "toastOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards"
           : "toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards",
@@ -155,13 +148,13 @@ const ToastItem: React.FC<{
       <span className="toast-icon" style={{ color: style.icon }}>
         {toastIcons[t.type]}
       </span>
-      <span className="toast-message" style={{ color: style.text }}>
+      <span className="toast-message" style={{ color: "#e4e4e7" }}>
         {t.message}
       </span>
       <button
         onClick={() => onDismiss(t.id)}
         className="toast-close"
-        style={{ color: style.text }}
+        style={{ color: "#a1a1aa" }}
       >
         <Icons.Close className="w-3.5 h-3.5" />
       </button>

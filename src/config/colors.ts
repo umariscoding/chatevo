@@ -421,8 +421,8 @@ export const colors: ColorSystem = {
 
   // Focus & Selection
   focus: {
-    ring: 'rgba(147, 51, 234, 0.4)',
-    ringOffset: 'rgba(147, 51, 234, 0.1)',
+    ring: 'rgba(99, 102, 241, 0.4)',
+    ringOffset: 'rgba(99, 102, 241, 0.1)',
   },
 
   selection: {
@@ -432,8 +432,8 @@ export const colors: ColorSystem = {
 
   // Shadow colors
   shadow: {
-    primary: 'rgba(147, 51, 234, 0.2)',
-    primaryLarge: 'rgba(147, 51, 234, 0.3)',
+    primary: 'rgba(99, 102, 241, 0.2)',
+    primaryLarge: 'rgba(99, 102, 241, 0.3)',
     elevated: 'rgba(0, 0, 0, 0.25)',
     zinc: 'rgba(113, 113, 122, 0.3)',
     zincSubtle: 'rgba(82, 82, 91, 0.2)',
@@ -467,8 +467,8 @@ export const colors: ColorSystem = {
       background: '#4b5563', // primary-600
       backgroundHover: '#374151', // primary-700
       text: '#ffffff',
-      shadow: 'rgba(147, 51, 234, 0.2)',
-      shadowHover: 'rgba(147, 51, 234, 0.3)',
+      shadow: 'rgba(99, 102, 241, 0.2)',
+      shadowHover: 'rgba(99, 102, 241, 0.3)',
     },
     secondary: {
       background: '#e4e4e7', // neutral-200
@@ -488,11 +488,11 @@ export const colors: ColorSystem = {
       text: '#52525b', // zinc-600
     },
     auth: {
-      primaryBackground: 'linear-gradient(135deg, var(--color-purple-600) 0%, var(--color-blue-600) 100%)',
-      primaryBackgroundHover: 'linear-gradient(135deg, var(--color-purple-700) 0%, var(--color-blue-600) 100%)',
+      primaryBackground: 'var(--color-accent-brand)',
+      primaryBackgroundHover: 'var(--color-accent-brand-dark)',
       primaryText: '#ffffff',
-      primaryShadow: 'rgba(147, 51, 234, 0.4)',
-      primaryShadowHover: 'rgba(147, 51, 234, 0.6)',
+      primaryShadow: 'rgba(99, 102, 241, 0.4)',
+      primaryShadowHover: 'rgba(99, 102, 241, 0.6)',
       ghostBackgroundHover: '#27272a', // zinc-800
       ghostText: '#d4d4d8', // zinc-300
       ghostTextHover: '#f4f4f5', // zinc-100
@@ -1471,8 +1471,8 @@ export const themes: Record<ThemeName, ColorSystem> = {
     },
     border: {
       primary: '#3d1e6b',
-      secondary: 'rgba(147, 51, 234, 0.5)',
-      tertiary: 'rgba(147, 51, 234, 0.3)',
+      secondary: 'rgba(99, 102, 241, 0.5)',
+      tertiary: 'rgba(99, 102, 241, 0.3)',
       focus: '#a855f7',
       error: '#ef4444',
       active: '#c084fc',
@@ -1499,13 +1499,13 @@ export const themes: Record<ThemeName, ColorSystem> = {
       primaryLarge: 'rgba(168, 85, 247, 0.3)',
       elevated: 'rgba(0, 0, 0, 0.25)',
       zinc: 'rgba(168, 85, 247, 0.3)',
-      zincSubtle: 'rgba(147, 51, 234, 0.2)',
+      zincSubtle: 'rgba(99, 102, 241, 0.2)',
       input: 'rgba(168, 85, 247, 0.2)',
     },
     input: {
       background: 'rgba(36, 15, 63, 0.4)',
       backgroundFocus: 'rgba(61, 30, 107, 0.5)',
-      border: 'rgba(147, 51, 234, 0.5)',
+      border: 'rgba(99, 102, 241, 0.5)',
       borderFocus: 'rgba(168, 85, 247, 0.8)',
       text: '#e9d5ff',
       placeholder: '#a855f7',
