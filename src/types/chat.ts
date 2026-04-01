@@ -22,4 +22,4 @@ export interface StreamingState {
   streamingMessage: string;
 }
 
-export type ModelType = "Llama-instant" | "Llama-large" | "OpenAI" | "Claude" | "Cohere";
+export type ModelType = "Llama-instant" | "Llama-large" | "GPT-OSS-120B" | "GPT-OSS-20B" | "GPT-4o-mini" | "GPT-4o" | "GPT-4.1" | "GPT-4.1-mini";
