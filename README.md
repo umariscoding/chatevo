@@ -1,6 +1,6 @@
-# BotBeetle User - Public Chat Interface
+# Wispoke User - Public Chat Interface
 
-Standalone React application for the BotBeetle public chatbot interface. Extracted from the monolithic Next.js application with controller+component+thunk Redux architecture.
+Standalone React application for the Wispoke public chatbot interface. Extracted from the monolithic Next.js application with controller+component+thunk Redux architecture.
 
 ## Tech Stack
 
@@ -62,7 +62,7 @@ VITE_API_URL=http://localhost:8000
 The app extracts the company slug from the subdomain:
 
 - `chatbot1.localhost:3000` → slug: "chatbot1"
-- `chatbot1.botbeetle.com` → slug: "chatbot1"
+- `chatbot1.wispoke.com` → slug: "chatbot1"
 
 For local development, add to your hosts file:
 

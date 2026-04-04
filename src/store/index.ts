@@ -5,7 +5,7 @@ import userAuthReducer from "./slices/userAuthSlice";
 import chatReducer from "./slices/chatSlice";
 
 const persistConfig = {
-  key: "botbeetle-user",
+  key: "wispoke-user",
   storage,
   whitelist: ["userAuth"],
   blacklist: ["chat"],
